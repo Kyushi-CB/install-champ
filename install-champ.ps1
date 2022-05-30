@@ -39,6 +39,7 @@ $dirOrder = @(
     "Misc",
     "Network",
     "Video",
+    "DS",
     "BIOS" 
 )
 
@@ -70,13 +71,22 @@ for ($i=0; $i -lt $dirOrder.length; $i++) {
  
         #execute selected application, wait until the process is finshed
         Write-Host $_.FullName "wird jetzt installiert..."
-        Start-Process $_.FullName -wait
+        Try {
+            Start-Process $_.FullName -wait
+        }
+        Catch
+        {
+            Write-Host "Die Aktion wurde vom Benutzer abgebrochen!" $_.FullName "wird übersprungen."
+        }
 
         #loop starts again after confirming until all items in the current directory are executed
-        Write-Host $_.FullName "wurde installiert."
+        Write-Host ">> done"
         #pause
     }
 }
+
 Write-Host "Alle Programme im angegebenen Verzeichnis wurden ausgeführt. Nothing to do here!"
-pause
+
+sleep 5
+
 return
